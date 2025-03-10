@@ -1,0 +1,11 @@
+<p>add-or-edit-course works!</p>
+<form [formGroup]="courseForm" (ngSubmit)="onSubmit()">
+    <label>שם הקורס:</label>
+    <input formControlName="title" required />
+
+    <label>תיאור הקורס:</label>
+    <textarea formControlName="description" required></textarea>
+    <!-- <button type="submit">{{ selectedCourse ? 'עדכן קורס' : 'צור קורס' }}</button> -->
+    <button type="submit">{{ selectedCourse ? 'עדכן קורס' : 'צור קורס' }}</button>
+
+</form>

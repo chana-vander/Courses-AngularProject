@@ -1,0 +1,20 @@
+<form [formGroup]="myForm" (ngSubmit)="onSubmit()">
+    <label for="email">שם משתמש:</label>
+    <input id="email" formControlName="email" type="email" />
+    <br>
+
+    <label for="password">סיסמה:</label>
+    <input id="password" formControlName="password" type="password" />
+    <!-- @if (myForm.controls['password'].invalid && myForm.controls['password'].touched) {
+    <div>
+        הסיסמה חייבת להכיל לפחות 6 תווים.
+    </div>
+    } -->
+    <br>
+    <button type="submit" [disabled]="myForm.invalid">התחבר</button>
+    
+    @if(msg){
+        {{msg}}
+    }
+</form>
+<p>login worked!</p>

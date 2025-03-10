@@ -1,0 +1,73 @@
+<!-- <p>manage-lesson works!</p>
+<div class="manage-lesson-container">
+    <h2>ניהול שיעור</h2>
+
+    <form [formGroup]="lessonForm"
+        (ngSubmit)="selectedLesson ? updateLesson() : createLesson()">
+        <div>
+            <label for="title">כותרת השיעור:</label>
+            <input id="title" formControlName="title" type="text" placeholder="הכנס כותרת" />
+        </div>
+        <div>
+            <label for="content">תוכן השיעור:</label>
+            <textarea id="content" formControlName="content" placeholder="הכנס תוכן לשיעור"></textarea>
+        </div>
+        <button type="submit" [disabled]="!lessonForm.valid">
+            {{ selectedLesson ? 'עדכן שיעור' : 'צור שיעור' }}
+        </button>
+    </form>
+
+    @if (lessons.length > 0) {
+    <h3>רשימת שיעורים</h3>
+    <ul>
+        @for (lesson of lessons; track lesson.id) {
+        <li>
+            <div>
+                <strong>{{ lesson.title }}</strong>
+                <button (click)="selectLesson(lesson)">בחר שיעור</button>
+                <button (click)="deleteLesson(lesson.id)">מחק שיעור</button>
+            </div>
+        </li>
+        }
+    </ul>
+    } @else {
+    <p>לא נמצאו שיעורים.</p>
+    }
+</div> -->
+<p>manage-lesson works!</p>
+<div class="manage-lesson-container">
+    <h2>ניהול שיעור</h2>
+
+    <form [formGroup]="lessonForm"
+        (ngSubmit)="selectedLesson ? updateLesson(courseId, selectedLesson.id) : createLesson()">
+        <div>
+            <label for="title">כותרת השיעור:</label>
+            <input id="title" formControlName="title" type="text" placeholder="הכנס כותרת" />
+        </div>
+        <div>
+            <label for="content">תוכן השיעור:</label>
+            <textarea id="content" formControlName="content" placeholder="הכנס תוכן לשיעור"></textarea>
+        </div>
+        <button type="submit" [disabled]="!lessonForm.valid">
+            {{ selectedLesson ? 'עדכן שיעור' : 'צור שיעור' }}
+        </button>
+    </form>
+
+    @if (lessons.length > 0) {
+    <h3>רשימת שיעורים</h3>
+    <ul>
+        @for (lesson of lessons; track lesson.id) {
+        <li>
+            <div>
+                <strong>{{ lesson.title }}</strong>
+                <button (click)="selectLesson(lesson)">בחר שיעור</button>
+                <button (click)="deleteLesson(courseId, lesson.id)">מחק שיעור</button>
+            </div>
+        </li>
+        }
+    </ul>
+    } @else {
+    <p>לא נמצאו שיעורים.</p>
+    }
+    <button (click)="createLesson()">+add lesson</button>
+</div>
