@@ -1,0 +1,32 @@
+/* button {
+    background-color: white !important; */
+    /* צבע רקע לבן */
+    /* color: black !important; */
+    /* צבע טקסט שחור */
+    /* border: none !important; */
+    /* הסרת מסגרת */
+    /* box-shadow: none !important; */
+    /* הסרת צל */
+    /* padding: 10px 20px; */
+    /* מרווחים פנימיים */
+    /* font-size: 16px; */
+    /* cursor: pointer; */
+    /* border-radius: 8px; */
+    /* פינות מעוגלות */
+    /* transition: background-color 0.3s ease, transform 0.2s ease; */
+/* } */
+button.mat-raised-button {
+    background-color: #e880b2 ; /* צבע רקע לבן */
+    color: black !important; /* טקסט שחור */
+    border: none !important; /* הסרת גבולות */
+    box-shadow: none !important; /* הסרת הצל */
+    outline: none !important; /* הסרת גבולות חיצוניים */
+  }
+  
+  /* הוספת הגדרת קוד עבור כפתורים במצב פוקוס */
+  button.mat-raised-button:focus {
+    outline: none !important; /* הסרת גבול גם בזמן פוקוס */
+    box-shadow: none !important; /* הסרת הצל גם בזמן פוקוס */
+  }
+  
+

@@ -6,8 +6,10 @@ import { ManageCourseComponent } from '../components/manage-course/manage-course
 import { ManageLessonComponent } from '../components/manage-lesson/manage-lesson.component';
 import { CourseDetailsComponent } from '../components/course-details/course-details.component';
 import { AddOrEditCourseComponent } from '../components/add-or-edit-course/add-or-edit-course.component';
+import { HomeComponent } from '../components/home/home.component';
 
 export const routes: Routes = [
+    // {path:'/home',component:HomeComponent},
     { path: 'login', component: LoginComponent },
     { path: 'signin', component: SigninComponent },
     {

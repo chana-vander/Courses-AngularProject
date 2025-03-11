@@ -1,6 +1,6 @@
-<p>manage-course works!</p>
+<button (click)="addCourse()">➕ הוסף קורס</button>
+
 <h2>ניהול קורסים</h2>
-<!-- @if(showForm){ -->
 <form [formGroup]="courseForm" (ngSubmit)="onSubmit()">
   <label>שם הקורס:</label>
   <input formControlName="title" required />
@@ -9,18 +9,3 @@
   <textarea formControlName="description" required></textarea>
   <button type="submit">{{ selectedCourse ? 'עדכן קורס' : 'צור קורס' }}</button>
 </form>
-<!-- } -->
-<button (click)="addCourse()">➕ הוסף קורס</button>
-<!-- <ul>
-  @for (course of courses; track course.id) {
-  <li>
-    {{ course.title }} - {{ course.description }}
-    <button (click)="selectCourse(course)">✏️ עריכה</button>
-    <button (click)="deleteCourse(course.id)">❌ מחיקה</button>
-    <button (click)="goToLessons(course.id)">📚 להצגת השיעורים</button>
-  </li>
-  }
-  @empty {
-  <li>אין קורסים כרגע.</li>
-  }
-</ul> -->

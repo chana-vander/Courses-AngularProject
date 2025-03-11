@@ -3,64 +3,40 @@
     <div class="courses-list">
         <p>on courses</p>
         @if (errorMessage) {
-            <div class="error-message">
-                <p>{{ errorMessage }}</p>
-            </div>
+        <div class="error-message">
+            <p>{{ errorMessage }}</p>
+        </div>
         }
         @if (courses.length > 0) {
-            <h3>רשימת הקורסים</h3>
-            <ul>
-                @for (course of courses; track course.id) {
-                <li>
-                    <p>{{ course.title }} - {{ course.description }}</p>
-                    @if (role === "teacher") {
-                        <button (click)="editCourse(course)">✏️ עריכה</button>
-                        <button (click)="deleteCourse(course.id)">❌ מחיקה</button>
-                    }
-                    @else if(role==="student"){
-                        <button (click)="addUser(course)">➕להצטרפות</button>
-                        <button (click)="removeUser(course)">❌ליציאה </button>
-                    }
-                    <button (click)="forDetails(course.id)">לפרטי הקורס</button>
-                    <button (click)="forLessons(course.id)">📚 הצגת השיעורים</button>
-                </li>
+        <h3>רשימת הקורסים</h3>
+        <ul>
+            @for (course of courses; track course.id) {
+            <li>
+                <p>{{ course.title }} - {{ course.description }}</p>
+                @if (role === "teacher") {
+                <button (click)="editCourse(course)">✏️ עריכה</button>
+                <button (click)="deleteCourse(course.id)">❌ מחיקה</button>
                 }
-            </ul>
+                @else if(role==="student"){
+                @if(!isEnoled(course.id)) {
+                <button (click)="addUser(course.id)">➕להצטרפות</button>
+                }
+                @else {
+                <button (click)="removeUser(course.id)">❌ליציאה </button>
+                }
+                }
+                <button (click)="forDetails(course.id)">לפרטי הקורס</button>
+                <button (click)="forLessons(course.id)">📚 הצגת השיעורים</button>
+            </li>
+            }
+        </ul>
         }
         @else if (courses.length === 0 && !errorMessage) {
-            <p>לא נמצאו קורסים.</p>
+        <p>לא נמצאו קורסים.</p>
         }
         @if (role === "teacher") {
-            <button (click)="addCourse()">➕ הוספת קורס</button>
-            
+        <button (click)="addCourse()">➕ הוספת קורס</button>
+
         }
     </div>
-    <!-- פרטי קורס -->
-    <!-- @if (showDetails && details) {
-    <div class="course-details">
-        <h3>פרטי הקורס</h3>
-        <p><strong>שם הקורס:</strong> {{ details.title }}</p>
-        <p><strong>תיאור:</strong> {{ details.description }}</p>
-        <p><strong>מזהה המורה:</strong> {{ details.teacherId }}</p>
-        <button (click)="closeDetails()">❌ סגור</button>
-    </div>
-    } -->
 </div>
-
-
-<!-- <button (click)="addCourse()">להוספת קורס חדש</button> -->
-<!-- <p>on courses</p> -->
-<!-- <ul>
-    @for (course of courses; track course.id) {
-    <li>
-      {{ course.title }} - {{ course.description }}
-      <button (click)="selectCourse(course)">✏️ עריכה</button>
-      <button (click)="deleteCourse(course.id)">❌ מחיקה</button>
-      <button (click)="goToLessons(course.id)">📚 להצגת השיעורים</button>
-    </li>
-    }
-    @empty {
-    <li>אין קורסים כרגע.</li>
-    } -->
-<!-- </ul> -->
-<!-- <router-outlet></router-outlet> -->

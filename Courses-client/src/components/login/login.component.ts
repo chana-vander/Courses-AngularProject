@@ -17,7 +17,7 @@ export class LoginComponent {
   router: any;
   msg: string='';
 
-  constructor(private fb: FormBuilder, private userService: UserService) {
+  constructor(private fb: FormBuilder, private userService: UserService,router:Router) {
     this.myForm = this.fb.group({
       // user: this.fb.group({
       email: ['', [Validators.required, Validators.email]],
@@ -45,16 +45,14 @@ export class LoginComponent {
         // שמור את ה-ID של המשתמש בלוקלסטורג
         localStorage.setItem('userId', response.userId); // Assuming שה-API מחזיר את ה-ID בתשובה
         console.log("loocalStorage.getItem('userId')",localStorage.getItem('userId'));
-        
-        console.log("משתמש קיים");
-        alert("ברוך שובך למערכת")
+        alert("ברוך שובך למערכת עבור לעמוד הבית")
         // this.router.navigate(['/home']); // ניתוב לעמוד הבית
       },
         error => {
           console.error('Login failed:', error);
           console.log("משתמש לא קיים");
-          this.msg = "משתמש לא קיים יש לעבור לעמוד ההרשמה"
-          // this.router.navigate(['/signup']); // ניתוב לעמוד ההרשמה
+          this.msg = "משתמש לא קיים הנך מועבר לעמוד ההרשמה"
+          this.router.navigate(['/signup']); // ניתוב לעמוד ההרשמה
         }
       );
     }

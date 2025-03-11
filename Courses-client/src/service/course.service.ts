@@ -158,14 +158,19 @@ export class CourseService {
   }
 
   //הוספת משתמש לקורס
-  addUser(userId: any, courseId: number) {
-    return this.http.post(`${this.apiUrl}/${courseId}/enroll`, { userId });
+  addUser( courseId: number,userId: any,) {
+    return this.http.post(`${this.apiUrl}/${courseId}/enroll`, {userId },{headers:this.getHeaders()});
   }
-
 
   removeUser(courseId: any, userId: any) {
-    return this.http.delete<user>(`${this.apiUrl}/${courseId}/unenroll`, { body: { userId } });
+    return this.http.delete<user>(`${this.apiUrl}/${courseId}/unenroll`, { body: { userId } ,headers:this.getHeaders()});
   }
+
+  // שליפת כל הקורסים של סטודנט מסוים
+  getStudentCourses(studentId: string):Observable<any>{
+    return this.http.get<any>(`${this.apiUrl}/student/${studentId}`,{headers:this.getHeaders()});
+  }
+  
   // הסרת סטודנט מקורס
   //  unenrollStudent(courseId: string, userId: string): Observable<any> {
   //   return this.http.delete(`${this.apiUrl}/${courseId}/unenroll`,{

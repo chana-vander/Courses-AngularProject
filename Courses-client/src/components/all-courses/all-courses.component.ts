@@ -21,17 +21,15 @@ export class AllCoursesComponent {
   isEdit = false;
   showDetails: boolean = false;
   details: any;
-
+  studentCourse: course[] = []
 
   constructor(private courseService: CourseService, private route: ActivatedRoute, private router: Router) { }
 
   ngOnInit(): void {
     this.getCourses();
     console.log("oninit");
-    // this.router.params.subscribe(params => {
-    //   this.courseId = +params['courseId']; // המרת הערך למספר
-    //   // כאן תוכל להוסיף לוגיקה כדי לטעון את פרטי הקורס
-    // });
+    this.loadCoursesByStudent();
+    console.log("this.studentCourse: ", this.studentCourse);
   }
 
   getCourses(): void {
@@ -60,13 +58,9 @@ export class AllCoursesComponent {
   }
 
   deleteCourse(courseId: number) {
-    // console.log("cid", courseId);
-    // this.router.navigate(['/manage-course', courseId], { queryParams: { delete: 'true' } });
-    // // פונקציה למחיקת קורס
+    //פונקציה למחיקת קורס
     if (courseId) {
-      console.log("on delete function");
       console.log(localStorage.getItem('role'));
-      //jbjbjbnbmn
       console.log(courseId);
 
       this.courseService.delete(courseId).subscribe(
@@ -96,153 +90,64 @@ export class AllCoursesComponent {
     this.router.navigate(['manage-lessons']);
   }
 
-  addUser(course: course) {
-    const userId = localStorage.getItem('userId');
+  loadCoursesByStudent(): void {
+    const studentId = localStorage.getItem('userId');
+    if (studentId) {
+      this.courseService.getStudentCourses(studentId).subscribe({
+        next: (data) => {
+          this.studentCourse = data;
+        },
+        error: (error) => {
+          console.error('Error fetching student courses:', error);
+        }
+      });
+    }
+  }
+
+  isEnoled(courseId: number): boolean {
+    return this.studentCourse.some(course => course.id === courseId);
+  }
+
+  addUser(courseId: number) {
+    const userId = Number(localStorage.getItem('userId'));
     if (!userId) {
-      alert("שגיאה: לא נמצא מזהה משתמש ❌");
+      console.error('User not logged in.');
       return;
     }
-  
+    this.courseService.addUser(courseId, userId).subscribe({
+      next: () => {
+        console.log('Student enrolled successfully');
+        this.loadCoursesByStudent(); // רענון רשימת הקורסים של הסטודנט
+      },
+      error: (error) => {
+        console.error('Error enrolling in course:', error);
+      }
+    });
+  }
+
+  removeUser(courseId: number) {
+    const userId = Number(localStorage.getItem('userId'));
     console.log("userId", userId);
-    console.log("courseId", course.id);
-  
-    this.courseService.addUser(Number(userId), Number(course.id)).subscribe(
-      (response) => {
-        console.log("נרשמת בהצלחה לקורס", response);
-        alert("נרשמת בהצלחה לקורס 👍😍");
-      },
-      (error) => {
-        console.error("❌ שגיאה בהרשמה לקורס", error);
-        alert("❌ לא ניתן להירשם, נסה שוב.");
-      }
-    );
-  }
-  
-  removeUser(course: course) {
-    const userId = localStorage.getItem('userId');
+
     if (!userId) {
-      alert("שגיאה: לא נמצא מזהה משתמש ❌");
+      console.error('User not logged in.');
       return;
     }
-  
-    this.courseService.removeUser(Number(userId), Number(course.id)).subscribe(
-      (response) => {
-        console.log("יצאת מהקורס בהצלחה", response);
-        alert("✅ יצאת מהקורס בהצלחה");
+    this.courseService.removeUser(courseId, userId).subscribe({
+      next: () => {
+        console.log('Student unenrolled successfully');
+        this.loadCoursesByStudent(); // רענון רשימת הקורסים של הסטודנט
+
       },
-      (error) => {
-        console.error("❌ שגיאה ביציאה מהקורס", error);
-        alert("❌ לא ניתן לצאת מהקורס, נסה שוב.");
+      error: (error) => {
+        console.error('Error unenrolling from course:', error);
       }
-    );
+    });
   }
-  
-  // קבלת פרטי קורס
-  // detailsCourse(courseId?: number) {
-  //   let id = courseId || parseInt(localStorage.getItem('courseId') || '0', 10);
-
-  //   if (!id || isNaN(id)) {
-  //     console.error('❌ courseId חסר או לא תקין:', id);
-  //     alert('❌ לא ניתן לטעון את פרטי הקורס.');
-  //     return;
-  //   }
-
-  //   console.log(`📌 טוען פרטי קורס ${id}`);
-
-  //   this.courseService.getDetails(id).subscribe({
-  //     next: (response) => {
-  //       this.details = response;
-  //       this.showDetails = true;
-  //       console.log("'✅ פרטי הקורס:'", this.details);
-  //       console.log("showDetails ",this.showDetails);
-  //     },
-  //     error: (error) => {
-  //       console.error('❌ שגיאה בטעינת פרטי הקורס:', error);
-  //       alert('❌ לא ניתן לטעון את פרטי הקורס.');
-  //     }
-  //   });
-  // }
-
-  // closeDetails(){
-  //   this.showDetails=false;
-  // }
-
-  // deleteCourse(id: number | undefined): void {
-  //   console.log("on deleteCourse in all-courses");
-  //   this.router.navigate(['/manage-course'], { state: { courseId: id } });
-  // }
 
   addCourse() {
     console.log("on addCourse in all-courses");
-    // this.router.navigate(['/manage-course']);
     this.router.navigate(['/add-or-edit']);
   }
 
-  // editCourse(course: course) {
-  //   console.log("send course for edit on all-courses");
-  //   this.router.navigate(['/edit-course',{state:{courseData:course}}]);
-  //   // this.coursesService.triggerEdit(course);// שולח את הקורס דרך השירות
-  // }
-
-  // // פונקציה למחיקת קורס
-  // deleteCourse(id: number | undefined): void {
-  //   if (id) {
-  //     console.log("on delete function");
-  //     console.log(this.role);
-
-  //     this.courseService.delete(id).subscribe(
-  //       (response) => {
-  //         console.log('Course deleted successfully', response);
-  //         this.courses = this.courses.filter(course => course.id !== id); // עדכון רשימת הקורסים
-  //       },
-  //       (error) => {
-  //         console.log("here error");
-  //         console.error('Error deleting course', error);
-  //         this.errorMessage = 'There was an error deleting the course'; // טיפול בשגיאה
-  //       }
-  //     );
-  //   }
-  // }
-
-  //join user:
-  // joinCourse(course: course) {
-  //   const userId = localStorage.getItem('userId');
-  //   if (!userId) {
-  //     alert('שגיאה: לא נמצא מזהה משתמש.');
-  //     return;
-  //   }
-
-  //   if (course.id === undefined) {
-  //     console.error('🚨 שגיאה: לקורס אין מזהה תקף!');
-  //     alert('שגיאה: לא ניתן להירשם לקורס ללא מזהה.');
-  //     return;
-  //   }
-
-  //   this.courseService.enrollUserToCourse(course.id, userId).subscribe(
-  //     (response) => {
-  //       console.log('✅ המשתמש הצטרף בהצלחה:', response);
-  //       alert('נרשמת בהצלחה לקורס!');
-  //     },
-  //     (error) => {
-  //       console.error('❌ שגיאה בהצטרפות:', error);
-  //       alert('הנך רשום כבר לקורס זה או שהתרחשה שגיאה.');
-  //     }
-  //   );
-  // }
-  // delete(id:number|undefined){
-  //   const headers = new HttpHeaders({
-  //     'Authorization': `Bearer ${this.token}`
-  //   });
-
-  //   this.http.delete(`http://localhost:3000/api/courses/${id}`, { headers })
-  //     .subscribe(
-  //       (response) => {
-  //         console.log('Course deleted successfully', response);
-  //         this.courses = this.courses.filter(course => course.id !== id);
-  //       },
-  //       (error) => {
-  //         console.error('Error deleting course', error); // טיפול בשגיאות
-  //       }
-  //     );
-  //  }
 }

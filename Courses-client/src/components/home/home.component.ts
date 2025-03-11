@@ -1,14 +1,16 @@
 import { Component } from '@angular/core';
-// import { MatButtonModule } from '@angular/material/button';
-import { Router, RouterLink, RouterOutlet } from '@angular/router';
+import { RouterLink, RouterOutlet } from '@angular/router';
+import { MatButtonModule } from '@angular/material/button';
+import { MatToolbarModule } from '@angular/material/toolbar';
+import { MatCardModule } from '@angular/material/card';
+
 @Component({
   selector: 'app-home',
-  imports: [RouterLink,RouterOutlet],
+  standalone: true,
+  imports: [RouterLink, RouterOutlet, MatButtonModule,MatToolbarModule,MatCardModule],
   templateUrl: './home.component.html',
   styleUrl: './home.component.css'
 })
 export class HomeComponent {
-  //הקצאת משתנה לשמירת תפקיד/סוג המשתמש -מנהל / משתמש רגיל וכו
-  role:string|any=localStorage.getItem('role');
-
+  role: string | null = localStorage.getItem('role');
 }

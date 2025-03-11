@@ -1,18 +1,23 @@
-<div>
-    <button [routerLink]="['/login']">
-        כניסה
-    </button>
-    <br>
-    <button [routerLink]="['/signin']">
-        להרשמה
-    </button>
-    <br>
-    <button [routerLink]="['/courses']">
-       לכל הקורסים
-    </button>
-    <br>
-    <!-- <button [routerLink]="[/add-course]">
-            להוספת קורס
-        </button> -->
+<!-- <mat-toolbar color="primary">
+    <span>מערכת ניהול קורסים</span>
+</mat-toolbar> -->
+
+<div class="home-container">
+    <mat-card>
+        <mat-card-content>
+            <button mat-raised-button color="primary" [routerLink]="['/login']">
+                כניסה
+            </button>
+            <br><br>
+            <button mat-raised-button color="accent" [routerLink]="['/signin']">
+                להרשמה
+            </button>
+            <br><br>
+            <button mat-raised-button color="warn" [routerLink]="['/courses']">
+                לכל הקורסים
+            </button>
+        </mat-card-content>
+    </mat-card>
 </div>
+
 <router-outlet></router-outlet>

@@ -33,9 +33,10 @@
     <div>
         <label for="role">בחר תפקיד:</label>
         <select formControlName="role">
-            <option value="student">סטודנט</option>
-            <option value="teacher">מורה</option>
-            <option value="admin">מנהל</option>
+            <option value="admin">admin</option>
+            <option value="teacher">teacher</option>
+            <option value="student">student</option>
+
         </select>
     </div>
     <button type="submit" [disabled]="!signinForm.valid">Submit</button>

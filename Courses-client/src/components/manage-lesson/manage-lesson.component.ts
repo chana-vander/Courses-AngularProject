@@ -85,7 +85,7 @@ export class ManageLessonComponent {
 
       const updatedLesson = this.lessonForm.value; // נתוני השיעור המעודכן
       if (lessonId !== null) {
-        this.courseService.updateLesson(this.lessonForm.value.title, this.lessonForm.value.content, courseId,Number(localStorage.getItem('lessonId')),this.token).subscribe({
+        this.courseService.updateLesson(this.lessonForm.value.title, this.lessonForm.value.content, courseId, Number(localStorage.getItem('lessonId')), this.token).subscribe({
           next: () => {
             alert('✅ השיעור עודכן בהצלחה!');
             this.loadLessons(); // טען מחדש את השיעורים

@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { UserService } from '../../service/user.service';
+import { ActivatedRoute, Route, Router } from '@angular/router';
 
 @Component({
   selector: 'app-signin',
@@ -12,8 +13,9 @@ import { UserService } from '../../service/user.service';
 export class SigninComponent {
   signinForm: FormGroup;
   show = true;
+  router: any;
 
-  constructor(private fb: FormBuilder, private authService: UserService) {
+  constructor(private fb: FormBuilder, private authService: UserService, router: Router) {
     this.signinForm = this.fb.group({
       // user: this.fb.group({
       name: ['', Validators.required],
@@ -37,22 +39,16 @@ export class SigninComponent {
       this.authService.signin(this.signinForm.value.name, this.signinForm.value.email, this.signinForm.value.password, this.signinForm.value.role).subscribe({
         next: (data) => {
           // שמור את ה-ID של המשתמש בלוקלסטורג
-          console.log("data ",data);
+          console.log("data ", data);
           localStorage.setItem('userId', data.userId); // זה assuming שה-`id` נמצא בתשובת ה-API
           console.log("התחברת בהצלחה");
+          alert("ברוך הבא התחברת בהצלחה🤩הנך מועבר לעמוד הבית")
+          this.router.navigate(['/login']); // ניתוב לעמוד התחברות אם אין טוקן
+
         },
         error: (err) => console.log("no")
       });
     }
   }
 }
-  // onSubmit(): void {
-  //   localStorage.setItem('role',this.registerForm.value.user.role)
-  //   if (this.registerForm.valid) {
-  //     console.log(this.registerForm.value);
-  //     this.authService.signUp(this.registerForm.value.user.name,this.registerForm.value.user.email,this.registerForm.value.user.password,this.registerForm.value.user.role).subscribe({
-  //       next: (data) => console.log("התחברת בהצלחה"), error: (err) => console.log("no")
-  //     });
-  //   };
-  // }
 

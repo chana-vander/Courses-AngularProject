@@ -3,6 +3,7 @@ import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angula
 import { CourseService } from '../../service/course.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { HttpHeaders } from '@angular/common/http';
+import { Pipe, PipeTransform } from '@angular/core';
 
 @Component({
   selector: 'app-add-or-edit-course',
@@ -11,66 +12,17 @@ import { HttpHeaders } from '@angular/common/http';
   styleUrl: './add-or-edit-course.component.css'
 })
 export class AddOrEditCourseComponent {
-  // courseForm!: FormGroup;
-  // selectedCourse: any = null;
-  // isEditMode: boolean = false;
 
-  // constructor(
-  //   private courseService: CourseService,
-  //   private router: Router,
-  //   private route: ActivatedRoute,
-  //   private fb: FormBuilder
-  // ) { }
+@Pipe({
+  name: 'shorten'
+})
+export class ShortenPipe implements PipeTransform {
+  transform(value: string, limit: number): string {
+    if (!value) return '';
+    return value.length > limit ? value.substring(0, limit) + '...' : value;
+  }
+}
 
-  // onSubmit(){
-  //   this.updateCourse()
-  // }
-  // /* עדכון קורס */
-  // updateCourse(course: any) {
-  //   // this.showForm = true;
-  //   console.log("here");
-
-  //   // אם הקורס שהתקבל ופרטי הטופס תקינים
-  //   if (course && this.courseForm.valid) {
-  //     console.log("1");
-
-  //     // שלוף את ה-Token מה-LocalStorage
-  //     const token = localStorage.getItem('token'); // יש לשנות ל-token
-
-  //     // אם ה-Token לא קיים, הצג הודעת שגיאה
-  //     if (!token) {
-  //       alert('⚠️ לא נמצא Token. יש להתחבר מחדש!');
-  //       return; // עצור את המשך הפונקציה
-  //     }
-
-  //     // יצירת כותרת עם ה-Token
-  //     const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
-
-  //     // הכנת האובייקט לעדכון
-  //     const updateData = {
-  //       title: this.courseForm.value.title,
-  //       description: this.courseForm.value.description,
-  //       teacherId: parseInt(localStorage.getItem('id') || '0') // שלוף את ה-ID של המורה
-  //     };
-  //     console.log('Sending update data:', updateData);
-
-  //     // שלח את הבקשה לשרת עם הכותרת
-  //     this.courseService.updateCourse(course.id, updateData, headers).subscribe({
-  //       next: (response) => {
-  //         alert('✅ הקורס עודכן בהצלחה!');
-  //         // this.loadCourses();  // טוען מחדש את רשימת הקורסים
-  //         this.selectedCourse = null;  // מנקה את הקורס שנבחר לאחר העדכון
-  //         // this.showForm = false; // הסתר את הטופס לאחר העדכון
-  //       },
-  //       error: (error) => {
-  //         console.error('❌ שגיאה בעדכון הקורס:', error);
-  //         alert('❌ לא ניתן לעדכן את הקורס. אנא נסה שוב.');
-  //       }
-  //     });
-  //   } else {
-  //     alert('⚠️ יש לבחור קורס ולעדכן את כל השדות כנדרש!');
-  //   }
-  // }
   courseForm!: FormGroup;
   selectedCourse: any = null;  // הקורס שנבחר לצורך עריכה
   isEditMode: boolean = false;
@@ -133,7 +85,7 @@ export class AddOrEditCourseComponent {
         description: this.courseForm.value.description,
         teacherId: Number(localStorage.getItem('id'))  // התאם את ה-ID למספר
       };
-      console.log("tech",localStorage.getItem('id'));
+      console.log("tech", localStorage.getItem('id'));
 
       this.courseService.createCourse(newCourse).subscribe({
         next: (response) => {
