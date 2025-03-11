@@ -3,7 +3,6 @@ import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angula
 import { CourseService } from '../../service/course.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { HttpHeaders } from '@angular/common/http';
-import { Pipe, PipeTransform } from '@angular/core';
 
 @Component({
   selector: 'app-add-or-edit-course',
@@ -12,17 +11,6 @@ import { Pipe, PipeTransform } from '@angular/core';
   styleUrl: './add-or-edit-course.component.css'
 })
 export class AddOrEditCourseComponent {
-
-@Pipe({
-  name: 'shorten'
-})
-export class ShortenPipe implements PipeTransform {
-  transform(value: string, limit: number): string {
-    if (!value) return '';
-    return value.length > limit ? value.substring(0, limit) + '...' : value;
-  }
-}
-
   courseForm!: FormGroup;
   selectedCourse: any = null;  // הקורס שנבחר לצורך עריכה
   isEditMode: boolean = false;
