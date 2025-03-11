@@ -43,7 +43,9 @@ export class LoginComponent {
         // שמור את ה-token בלוקלסטורג
         localStorage.setItem('token', response.token);
         // שמור את ה-ID של המשתמש בלוקלסטורג
-        localStorage.setItem('id', response.id); // Assuming שה-API מחזיר את ה-ID בתשובה
+        localStorage.setItem('userId', response.userId); // Assuming שה-API מחזיר את ה-ID בתשובה
+        console.log("loocalStorage.getItem('userId')",localStorage.getItem('userId'));
+        
         console.log("משתמש קיים");
         alert("ברוך שובך למערכת")
         // this.router.navigate(['/home']); // ניתוב לעמוד הבית

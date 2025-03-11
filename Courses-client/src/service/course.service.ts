@@ -3,6 +3,7 @@ import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable, Subject } from 'rxjs';
 import { course } from '../models/course';
 import { user } from '../models/user';
+import { lesson } from '../models/lesson';
 @Injectable({
   providedIn: 'root'
 })
@@ -103,12 +104,12 @@ export class CourseService {
   //   return this.http.put(`http://localhost:3000/api/courses/${courseId}`, updatedData, { headers });
   // }
 
-  putCoure(title:string,description:string,teacherId:number|0,token:string,id:number):Observable<any>{
+  putCoure(title: string, description: string, teacherId: number | 0, token: string, id: number): Observable<any> {
     const headers = new HttpHeaders({
       'Authorization': `Bearer ${token}` // הוספת הטוקן לכותרת
     });
-    const course={title,description,teacherId}
-    return this.http.put<course>(`${this.apiUrl}/${id}`,course,{headers})
+    const course = { title, description, teacherId }
+    return this.http.put<course>(`${this.apiUrl}/${id}`, course, { headers })
   }
 
   /*מחיקת קורס */
@@ -135,8 +136,8 @@ export class CourseService {
 
   /*קבלת כל השיעורים בקורס */
   getLessons(courseId: number): Observable<any> {
-    console.log("courseId on service ",courseId);
-    
+    console.log("courseId on service ", courseId);
+
     return this.http.get<any>(`${this.apiUrl}/${courseId}/lessons`, { headers: this.getHeaders() });
   }
 
@@ -146,12 +147,28 @@ export class CourseService {
   }
 
   /* עדכון שיעור */
-  updateLesson(courseId: number, lessonId: number, lesson: any): Observable<any> {
-    return this.http.put<any>(`${this.apiUrl}/${courseId}/lessons/${lessonId}`, lesson, { headers: this.getHeaders() });
+  updateLesson(title: string, content: string, courseId: number, lessonId: number, token: string): Observable<any> {
+    const lesson = { title, content, courseId };
+    return this.http.put<lesson>(`${this.apiUrl}/${courseId}/lessons/${lessonId}`, lesson, { headers: this.getHeaders() });
   }
 
   /*מחיקת שיעור */
   deleteLesson(courseId: number, lessonId: number): Observable<any> {
     return this.http.delete<any>(`${this.apiUrl}/${courseId}/lessons/${lessonId}`, { headers: this.getHeaders() });
   }
+
+  //הוספת משתמש לקורס
+  addUser(userId: any, courseId: number) {
+    return this.http.post(`${this.apiUrl}/${courseId}/enroll`, { userId });
+  }
+
+
+  removeUser(courseId: any, userId: any) {
+    return this.http.delete<user>(`${this.apiUrl}/${courseId}/unenroll`, { body: { userId } });
+  }
+  // הסרת סטודנט מקורס
+  //  unenrollStudent(courseId: string, userId: string): Observable<any> {
+  //   return this.http.delete(`${this.apiUrl}/${courseId}/unenroll`,{
+  //     body: { userId }});
+  // }
 }

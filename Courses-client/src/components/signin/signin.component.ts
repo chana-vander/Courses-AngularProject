@@ -38,7 +38,7 @@ export class SigninComponent {
         next: (data) => {
           // שמור את ה-ID של המשתמש בלוקלסטורג
           console.log("data ",data);
-          localStorage.setItem('id', data.userId); // זה assuming שה-`id` נמצא בתשובת ה-API
+          localStorage.setItem('userId', data.userId); // זה assuming שה-`id` נמצא בתשובת ה-API
           console.log("התחברת בהצלחה");
         },
         error: (err) => console.log("no")

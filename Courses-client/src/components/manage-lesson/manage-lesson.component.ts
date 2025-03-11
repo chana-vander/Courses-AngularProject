@@ -16,6 +16,7 @@ export class ManageLessonComponent {
   lessons: any[] = [];
   // courseId: number = localStorage.getItem('courseId')||0;
   courseId: number = Number(localStorage.getItem('courseId')) || 0;
+  token: string = localStorage.getItem("token") ?? "";
 
   constructor(private fb: FormBuilder, private router: Router, private courseService: CourseService) {
     this.lessonForm = this.fb.group({
@@ -24,7 +25,7 @@ export class ManageLessonComponent {
     });
     let id = this.courseId || parseInt(localStorage.getItem('courseId') || '0', 10);
     console.log(id);
-    
+
     this.loadLessons();
   }
 
@@ -52,7 +53,7 @@ export class ManageLessonComponent {
     } else {
       console.error("❌ courseId is null - לא ניתן לטעון את השיעורים.");
     }
-  }  
+  }
 
   // יצירת שיעור חדש
   createLesson() {
@@ -75,42 +76,78 @@ export class ManageLessonComponent {
   }
 
   // עדכון שיעור קיים
+  //this:
   updateLesson(courseId: number, lessonId: number) {
     if (this.lessonForm.valid) {
+      console.log(lessonId, "idlesson");
+      localStorage.setItem('lessonId', lessonId.toString());
+      console.log(localStorage.getItem('lessonId'));
+
       const updatedLesson = this.lessonForm.value; // נתוני השיעור המעודכן
-      this.courseService.updateLesson(courseId, lessonId, updatedLesson).subscribe({
-        next: () => {
-          alert('✅ השיעור עודכן בהצלחה!');
-          this.loadLessons(); // טען מחדש את השיעורים
-          this.selectedLesson = null; // איפוס השיעור שנבחר
-        },
-        error: (error) => {
-          console.error('❌ שגיאה בעדכון השיעור:', error);
-          alert('❌ לא ניתן לעדכן את השיעור. אנא נסה שוב.');
-        }
-      });
-    }
-    else {
-      alert('⚠️ יש לבחור שיעור ולעדכן את כל השדות כנדרש!');
-    }
-  }
-
-  // מחיקת שיעור
-  deleteLesson(courseId: number, lessonId: number) {
-    if (confirm('❗ האם אתה בטוח שברצונך למחוק את השיעור הזה?')) {
-      this.courseService.deleteLesson(courseId, lessonId).subscribe({
-        next: () => {
-          alert('✅ השיעור נמחק בהצלחה!');
-          this.loadLessons(); // טען מחדש את השיעורים
-        },
-        error: (error) => {
-          console.error('❌ שגיאה במחיקת השיעור:', error);
-          alert('❌ לא ניתן למחוק את השיעור. אנא נסה שוב.');
-        }
-      });
+      if (lessonId !== null) {
+        this.courseService.updateLesson(this.lessonForm.value.title, this.lessonForm.value.content, courseId,Number(localStorage.getItem('lessonId')),this.token).subscribe({
+          next: () => {
+            alert('✅ השיעור עודכן בהצלחה!');
+            this.loadLessons(); // טען מחדש את השיעורים
+            this.selectedLesson = null; // איפוס השיעור שנבחר
+          },
+          error: (error) => {
+            console.error('❌ שגיאה בעדכון השיעור:', error);
+            alert('❌ לא ניתן לעדכן את השיעור. אנא נסה שוב.');
+          }
+        });
+      }
+      else {
+        alert('⚠️ יש לבחור שיעור ולעדכן את כל השדות כנדרש!');
+      }
     }
   }
+  // // מחיקת שיעור
+  // deleteLesson(courseId: number, lessonId: number) {
+  //   if (confirm('❗ האם אתה בטוח שברצונך למחוק את השיעור הזה?')) {
+  //     this.courseService.deleteLesson(courseId, lessonId).subscribe({
+  //       next: () => {
+  //         alert('✅ השיעור נמחק בהצלחה!');
+  //         this.loadLessons(); // טען מחדש את השיעורים
+  //       },
+  //       error: (error) => {
+  //         console.error('❌ שגיאה במחיקת השיעור:', error);
+  //         alert('❌ לא ניתן למחוק את השיעור. אנא נסה שוב.');
+  //       }
+  //     });
+  //   }
+  // }
 
+  // //gpt:
+  // updateLesson(courseId: number, lessonId: number) {
+  //   if (this.lessonForm.valid) {
+  //     console.log(lessonId, "idlesson");
+  //     localStorage.setItem('lessonId', lessonId.toString());
+  //     console.log(localStorage.getItem('lessonId'));
+
+  //     // אוסף את נתוני השיעור מהטופס
+  //     const updatedLesson = {
+  //       title: this.lessonForm.value.title,
+  //       content: this.lessonForm.value.description,  // מניח שהשדה description הוא תוכן השיעור
+  //       courseId: courseId
+  //     };
+
+  //     // שולח את הבקשה לעדכון
+  //     this.courseService.updateLesson(updatedLesson).subscribe({
+  //       next: () => {
+  //         alert('✅ השיעור עודכן בהצלחה!');
+  //         this.loadLessons(); // טוען מחדש את השיעורים
+  //         this.selectedLesson = null; // מאפס את השיעור שנבחר
+  //       },
+  //       error: (error) => {
+  //         console.error('❌ שגיאה בעדכון השיעור:', error);
+  //         alert('❌ לא ניתן לעדכן את השיעור. אנא נסה שוב.');
+  //       }
+  //     });
+  //   } else {
+  //     alert('⚠️ יש לבחור שיעור ולעדכן את כל השדות כנדרש!');
+  //   }
+  // }
 
   // טעינת רשימת השיעורים של קורס מסוים
   // loadLessons(courseId: number) {
@@ -164,20 +201,20 @@ export class ManageLessonComponent {
   //   }
   // }
 
-  // // מחיקת שיעור
-  // deleteLesson(courseId: number, lessonId: number) {
-  //   if (confirm('❗ האם אתה בטוח שברצונך למחוק את השיעור הזה?')) {
-  //     this.courseService.deleteLesson(courseId, lessonId).subscribe({
-  //       next: () => {
-  //         alert('✅ השיעור נמחק בהצלחה!');
-  //         this.loadLessons(courseId);
-  //       },
-  //       error: (error) => {
-  //         console.error('❌ שגיאה במחיקת השיעור:', error);
-  //         alert('❌ לא ניתן למחוק את השיעור. אנא נסה שוב.');
-  //       }
-  //     });
-  //   }
-  // }
+  // מחיקת שיעור
+  deleteLesson(courseId: number, lessonId: number) {
+    if (confirm('❗ האם אתה בטוח שברצונך למחוק את השיעור הזה?')) {
+      this.courseService.deleteLesson(courseId, lessonId).subscribe({
+        next: () => {
+          alert('✅ השיעור נמחק בהצלחה!');
+          this.loadLessons();
+        },
+        error: (error) => {
+          console.error('❌ שגיאה במחיקת השיעור:', error);
+          alert('❌ לא ניתן למחוק את השיעור. אנא נסה שוב.');
+        }
+      });
+    }
+  }
 
 }

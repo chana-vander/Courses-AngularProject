@@ -3,10 +3,12 @@ import { CourseService } from '../../service/course.service';
 import { ActivatedRoute, Route, Router } from '@angular/router';
 import { course } from '../../models/course';
 import { HttpClientModule, HttpHeaders } from '@angular/common/http';
+// import { RouterTestingModule } from '@angular/router/testing';
+import { RouterModule } from '@angular/router';
 import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 @Component({
   selector: 'app-all-courses',
-  imports: [FormsModule, ReactiveFormsModule, HttpClientModule],
+  imports: [FormsModule, ReactiveFormsModule, RouterModule, HttpClientModule],
   templateUrl: './all-courses.component.html',
   styleUrl: './all-courses.component.css'
 })
@@ -21,7 +23,7 @@ export class AllCoursesComponent {
   details: any;
 
 
-  constructor(private courseService: CourseService,private route:ActivatedRoute, private router: Router) { }
+  constructor(private courseService: CourseService, private route: ActivatedRoute, private router: Router) { }
 
   ngOnInit(): void {
     this.getCourses();
@@ -86,16 +88,54 @@ export class AllCoursesComponent {
     console.log(courseId);
     // שמירה בלוקלסטורג
     localStorage.setItem('courseId', courseId);
-    this.router.navigate([courseId, 'details'], { relativeTo: this.route }); 
+    this.router.navigate(['/courseId', courseId, 'details']);
   }
 
-  forLessons(courseId: number) {
-    localStorage.setItem('courseId', courseId.toString());
-    console.log();
-    
+  forLessons(courseId: any) {
+    localStorage.setItem('courseId', courseId);
     this.router.navigate(['manage-lessons']);
   }
+
+  addUser(course: course) {
+    const userId = localStorage.getItem('userId');
+    if (!userId) {
+      alert("שגיאה: לא נמצא מזהה משתמש ❌");
+      return;
+    }
   
+    console.log("userId", userId);
+    console.log("courseId", course.id);
+  
+    this.courseService.addUser(Number(userId), Number(course.id)).subscribe(
+      (response) => {
+        console.log("נרשמת בהצלחה לקורס", response);
+        alert("נרשמת בהצלחה לקורס 👍😍");
+      },
+      (error) => {
+        console.error("❌ שגיאה בהרשמה לקורס", error);
+        alert("❌ לא ניתן להירשם, נסה שוב.");
+      }
+    );
+  }
+  
+  removeUser(course: course) {
+    const userId = localStorage.getItem('userId');
+    if (!userId) {
+      alert("שגיאה: לא נמצא מזהה משתמש ❌");
+      return;
+    }
+  
+    this.courseService.removeUser(Number(userId), Number(course.id)).subscribe(
+      (response) => {
+        console.log("יצאת מהקורס בהצלחה", response);
+        alert("✅ יצאת מהקורס בהצלחה");
+      },
+      (error) => {
+        console.error("❌ שגיאה ביציאה מהקורס", error);
+        alert("❌ לא ניתן לצאת מהקורס, נסה שוב.");
+      }
+    );
+  }
   
   // קבלת פרטי קורס
   // detailsCourse(courseId?: number) {

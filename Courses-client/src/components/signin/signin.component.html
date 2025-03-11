@@ -31,10 +31,12 @@
         }
     </div>
     <div>
-        <input formControlName="role" type="text" placeholder="Role" />
-        @if (signinForm.get('role')?.hasError('required') && signinForm.get('role')?.touched) {
-        <div>Role is required</div>
-        }
+        <label for="role">בחר תפקיד:</label>
+        <select formControlName="role">
+            <option value="student">סטודנט</option>
+            <option value="teacher">מורה</option>
+            <option value="admin">מנהל</option>
+        </select>
     </div>
     <button type="submit" [disabled]="!signinForm.valid">Submit</button>
 </form>

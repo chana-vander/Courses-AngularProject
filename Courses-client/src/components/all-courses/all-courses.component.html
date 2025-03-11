@@ -10,12 +10,16 @@
         @if (courses.length > 0) {
             <h3>רשימת הקורסים</h3>
             <ul>
-                @for (course of courses; track course.title) {
+                @for (course of courses; track course.id) {
                 <li>
                     <p>{{ course.title }} - {{ course.description }}</p>
                     @if (role === "teacher") {
                         <button (click)="editCourse(course)">✏️ עריכה</button>
                         <button (click)="deleteCourse(course.id)">❌ מחיקה</button>
+                    }
+                    @else if(role==="student"){
+                        <button (click)="addUser(course)">➕להצטרפות</button>
+                        <button (click)="removeUser(course)">❌ליציאה </button>
                     }
                     <button (click)="forDetails(course.id)">לפרטי הקורס</button>
                     <button (click)="forLessons(course.id)">📚 הצגת השיעורים</button>
@@ -28,9 +32,9 @@
         }
         @if (role === "teacher") {
             <button (click)="addCourse()">➕ הוספת קורס</button>
+            
         }
     </div>
-
     <!-- פרטי קורס -->
     <!-- @if (showDetails && details) {
     <div class="course-details">
@@ -59,3 +63,4 @@
     <li>אין קורסים כרגע.</li>
     } -->
 <!-- </ul> -->
+<!-- <router-outlet></router-outlet> -->

@@ -1,26 +1,9 @@
-<p>course-details works!</p>
-<!-- <button (click)="detailsCourse(courseId)">פרטי קורס</button> -->
-<!-- <button (click)="loadLessons()">להצגת השיעורים</button> -->
-
 @if (showDetails && details) {
 <h3>פרטי הקורס</h3>
 <p><strong>שם הקורס:</strong> {{ details.title }}</p>
 <p><strong>תיאור:</strong> {{ details.description }}</p>
 <p><strong>מספר שיעורים:</strong> {{ details.lessonCount }}</p>
-<p><strong>מזהה המורה</strong>{{details.teacherId}}</p>
-}
+<p><strong>מזהה המורה</strong>{{details.teacherId}}</p>}
 @else {
 <p>אין פרטים להצגה.</p>
 }
-
-<!-- @if (showLessons&&lessons && lessons.length > 0) {
-<h3>רשימת שיעורים</h3>
-<ul>
-    @for (lesson of lessons; track $index) {
-    <li>{{ lesson.title }}</li>
-    }
-</ul>
-}
-@else if(showLessons){
-<p>אין שיעורים זמינים כרגע</p>
-} -->

@@ -16,67 +16,33 @@ export class CourseDetailsComponent {
   showLessons: boolean = false;
 
   constructor(private courseService: CourseService, private router: ActivatedRoute) {
-    // קבלת פרטי קורס
-    let id = parseInt(localStorage.getItem('courseId') || '0', 10);
-    console.log("םמ גקאשןךד ןג: ",id);
-
-    if (!id || isNaN(id)) {
-      console.error('❌ courseId חסר או לא תקין:', id);
-      alert('❌ לא ניתן לטעון את פרטי הקורס.');
-      return;
-    }
-
-    console.log(`📌 טוען פרטי קורס ${id}`);
-
-    this.courseService.getDetails(id).subscribe({
-      next: (response) => {
-        this.details = response;
-        this.showDetails = true;
-        console.log('✅ פרטי הקורס:', this.details);
-      },
-      error: (error) => {
-        console.error('❌ שגיאה בטעינת פרטי הקורס:', error);
-        alert('❌ לא ניתן לטעון את פרטי הקורס.');
-      }
-    });
   }
 
-  // ngOnInit(): void {
-  //   // קבלת ה-ID של הקורס מהנתיב
-  //   this.router.paramMap.subscribe(params => {
-  //     const id = params.get('id');
-  //     if (id) {
-  //       this.courseId = +id;
-  //       this.detailsCourse(this.courseId);
-  //       this.loadLessons(this.courseId);
-  //     }
-  //   });
-  // }
-
-  // // קבלת פרטי קורס
-  // detailsCourse(courseId?: number) {
-  //   let id = courseId || parseInt(localStorage.getItem('courseId') || '0', 10);
-
-  //   if (!id || isNaN(id)) {
-  //     console.error('❌ courseId חסר או לא תקין:', id);
-  //     alert('❌ לא ניתן לטעון את פרטי הקורס.');
-  //     return;
-  //   }
-
-  //   console.log(`📌 טוען פרטי קורס ${id}`);
-
-  //   this.courseService.getDetails(id).subscribe({
-  //     next: (response) => {
-  //       this.details = response;
-  //       this.showDetails = true;
-  //       console.log('✅ פרטי הקורס:', this.details);
-  //     },
-  //     error: (error) => {
-  //       console.error('❌ שגיאה בטעינת פרטי הקורס:', error);
-  //       alert('❌ לא ניתן לטעון את פרטי הקורס.');
-  //     }
-  //   });
-  // }
+  ngOnInit():void{
+     // קבלת פרטי קורס
+     let id = parseInt(localStorage.getItem('courseId') || '0', 10);
+     console.log("םמ גקאשןךד ןג: ",id);
+ 
+     if (!id || isNaN(id)) {
+       console.error('❌ courseId חסר או לא תקין:', id);
+       alert('❌ לא ניתן לטעון את פרטי הקורס.');
+       return;
+     }
+ 
+     console.log(`📌 טוען פרטי קורס ${id}`);
+ 
+     this.courseService.getDetails(id).subscribe({
+       next: (response) => {
+         this.details = response;
+         this.showDetails = true;
+         console.log('✅ פרטי הקורס:', this.details);
+       },
+       error: (error) => {
+         console.error('❌ שגיאה בטעינת פרטי הקורס:', error);
+         alert('❌ לא ניתן לטעון את פרטי הקורס.');
+       }
+     });
+  }
 
   // טעינת רשימת השיעורים של קורס מסוים
   loadLessons() {
