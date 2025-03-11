@@ -1,5 +1,19 @@
 <p>add-or-edit-course works!</p>
-<form [formGroup]="courseForm" (ngSubmit)="onSubmit()">
+<form [formGroup]="courseForm" (ngSubmit)="onSubmit()" dir="rtl">
+    <fieldset>
+        <legend>{{ selectedCourse ? 'עדכון קורס' : 'יצירת קורס' }}</legend>
+
+        <label for="title">שם הקורס:</label>
+        <input type="text" id="title" formControlName="title" required />
+
+        <label for="description">תיאור הקורס:</label>
+        <textarea id="description" formControlName="description" required></textarea>
+
+        <button type="submit">{{ selectedCourse ? 'עדכן קורס' : 'צור קורס' }}</button>
+    </fieldset>
+</form>
+<!-- without pipes: -->
+<!-- <form [formGroup]="courseForm" (ngSubmit)="onSubmit()">
     <label>שם הקורס:</label>
     <input formControlName="title" required />
 
@@ -7,4 +21,4 @@
     <textarea formControlName="description" required></textarea>
     <button type="submit">{{ selectedCourse ? 'עדכן קורס' : 'צור קורס' }}</button>
 
-</form>
+</form>  -->
