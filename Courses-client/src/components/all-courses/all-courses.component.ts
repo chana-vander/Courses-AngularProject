@@ -117,6 +117,7 @@ export class AllCoursesComponent {
     this.courseService.addUser(courseId, userId).subscribe({
       next: () => {
         console.log('Student enrolled successfully');
+        alert("ברוך הבא לקורס😎🎉")
         this.loadCoursesByStudent(); // רענון רשימת הקורסים של הסטודנט
       },
       error: (error) => {
@@ -131,13 +132,14 @@ export class AllCoursesComponent {
 
     if (!userId) {
       console.error('User not logged in.');
+      alert("you not logged in ")
       return;
     }
     this.courseService.removeUser(courseId, userId).subscribe({
       next: () => {
         console.log('Student unenrolled successfully');
+        alert("להתראות😥✋")
         this.loadCoursesByStudent(); // רענון רשימת הקורסים של הסטודנט
-
       },
       error: (error) => {
         console.error('Error unenrolling from course:', error);

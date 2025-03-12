@@ -6,16 +6,14 @@ import { ActivatedRoute, Route, Router } from '@angular/router';
 @Component({
   selector: 'app-signin',
   imports: [ReactiveFormsModule],
-  // imports:[],
   templateUrl: './signin.component.html',
   styleUrl: './signin.component.css'
 })
 export class SigninComponent {
   signinForm: FormGroup;
   show = true;
-  router: any;
 
-  constructor(private fb: FormBuilder, private authService: UserService, router: Router) {
+  constructor(private fb: FormBuilder, private authService: UserService,private router: Router) {
     this.signinForm = this.fb.group({
       // user: this.fb.group({
       name: ['', Validators.required],
@@ -31,22 +29,35 @@ export class SigninComponent {
   }
 
   onSubmit(): void {
-    console.log("in onSunbmit function");
     localStorage.setItem('role', this.signinForm.value.role);
 
     if (this.signinForm.valid) {
-      console.log(this.signinForm.value);
-      this.authService.signin(this.signinForm.value.name, this.signinForm.value.email, this.signinForm.value.password, this.signinForm.value.role).subscribe({
-        next: (data) => {
-          // שמור את ה-ID של המשתמש בלוקלסטורג
-          console.log("data ", data);
-          localStorage.setItem('userId', data.userId); // זה assuming שה-`id` נמצא בתשובת ה-API
-          console.log("התחברת בהצלחה");
-          alert("ברוך הבא התחברת בהצלחה🤩הנך מועבר לעמוד הבית")
-          this.router.navigate(['/login']); // ניתוב לעמוד התחברות אם אין טוקן
 
+      this.authService.signin(
+        this.signinForm.value.name,
+        this.signinForm.value.email,
+        this.signinForm.value.password,
+        this.signinForm.value.role
+      ).subscribe({
+        next: (data) => {
+          console.log("✅ תגובת שרת (הרשמה מוצלחת):", data);
+          // כאן תוכל להוסיף לוג נוסף במקרה של הצלחה
+          alert("ברוך הבא! התחברת בהצלחה 🤩 הנך מועבר לעמוד הבית");
+          this.router.navigate(['/']); // ניתוב לעמוד הבית
         },
-        error: (err) => console.log("no")
+        error: (err) => {
+          console.error("❌ שגיאה בהרשמה: ", err);
+
+          if (err.status === 400 && err.error?.message === "User already exists") {
+            alert("❌ כתובת האימייל כבר רשומה במערכת. נסה להתחבר או להשתמש באימייל אחר.");
+          }
+          else if (err.status === 500) {
+            alert(" שגיאת שרת פנימית(500).בדוק את הנתונים שהזנת ונסה שוב.");
+          }
+          else {
+            alert("🚨 שגיאה בהרשמה, נסה שוב מאוחר יותר.");
+          }
+        }
       });
     }
   }

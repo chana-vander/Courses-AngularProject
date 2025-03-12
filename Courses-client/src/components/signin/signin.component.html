@@ -1,12 +1,3 @@
-<p>signin works!</p>
-<!-- <form [formGroup]="signinForm" (ngSubmit)="onSubmit()">
-    <label>name:</label>
-    <input formControlName="name" /> -->
-<!-- @if(signinForm.get('user.name')?hasError('required')){
-        <mat-error>name is required</mat-error>  
-    } -->
-
-<!-- </form> -->
 <form [formGroup]="signinForm" (ngSubmit)="onSubmit()">
     <div>
         <input formControlName="name" type="text" placeholder="Name" />
@@ -25,7 +16,7 @@
         }
     </div>
     <div>
-        <input formControlName="password" type="password" placeholder="Password" />
+        <input formControlName="password" type="password" placeholder="Password- min 6 tavs" />
         @if (signinForm.get('password')?.hasError('required') && signinForm.get('password')?.touched) {
         <div>Password is required</div>
         }

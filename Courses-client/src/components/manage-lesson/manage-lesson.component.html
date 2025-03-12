@@ -1,5 +1,5 @@
-<p>manage-lesson works!</p>
 <div class="manage-lesson-container">
+    @if(role==="teacher"){
     <h2>ניהול שיעור</h2>
 
     <form [formGroup]="lessonForm"
@@ -16,7 +16,7 @@
             {{ selectedLesson ? 'עדכן שיעור' : 'צור שיעור' }}
         </button>
     </form>
-
+    }
     @if (lessons.length > 0) {
     <h3>רשימת שיעורים</h3>
     <ul>
@@ -30,9 +30,10 @@
         </li>
         }
     </ul>
-    } 
+    }
     @else {
     <p>לא נמצאו שיעורים.</p>
     }
-    <button (click)="createLesson()">+add lesson</button>
+    @if(role==="teacher"){
+        <button (click)="createLesson()">+add lesson</button>}
 </div>

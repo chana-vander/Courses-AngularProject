@@ -9,18 +9,14 @@ import { AddOrEditCourseComponent } from '../components/add-or-edit-course/add-o
 import { HomeComponent } from '../components/home/home.component';
 
 export const routes: Routes = [
-    // {path:'/home',component:HomeComponent},
+    { path: '', redirectTo: 'home', pathMatch: 'full' }, // ניתוב ברירת מחדל לעמוד הבית
     { path: 'login', component: LoginComponent },
     { path: 'signin', component: SigninComponent },
-    {
-        path: 'courses', component: AllCoursesComponent,
-        // children: [
-        //     { path: ':courseId/details', component: CourseDetailsComponent },
-        // ]
-    },
+    { path: 'courses', component: AllCoursesComponent, },
     { path: 'manage-lessons', component: ManageLessonComponent },
     { path: 'manage-course', component: ManageCourseComponent }, // הוספה
     { path: 'manage-course/:id', component: ManageCourseComponent }, // עריכה
     { path: 'courseId/:courseId/details', component: CourseDetailsComponent },
-    { path: 'add-or-edit', component: AddOrEditCourseComponent }
+    { path: 'add-or-edit', component: AddOrEditCourseComponent },
+    { path: '**', redirectTo: 'home' } // ניתוב ברירת מחדל לכל כתובת לא קיימת
 ];

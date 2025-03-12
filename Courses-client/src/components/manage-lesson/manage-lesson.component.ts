@@ -14,9 +14,9 @@ export class ManageLessonComponent {
   lessonForm: FormGroup;
   selectedLesson: any = null;
   lessons: any[] = [];
-  // courseId: number = localStorage.getItem('courseId')||0;
   courseId: number = Number(localStorage.getItem('courseId')) || 0;
   token: string = localStorage.getItem("token") ?? "";
+  role = localStorage.getItem('role');
 
   constructor(private fb: FormBuilder, private router: Router, private courseService: CourseService) {
     this.lessonForm = this.fb.group({
@@ -25,6 +25,7 @@ export class ManageLessonComponent {
     });
     let id = this.courseId || parseInt(localStorage.getItem('courseId') || '0', 10);
     console.log(id);
+    console.log("role: ", this.role);
 
     this.loadLessons();
   }
