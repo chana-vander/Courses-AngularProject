@@ -98,11 +98,13 @@ export class AddOrEditCourseComponent {
         return;
       }
 
-      const teacherId = Number(localStorage.getItem('id'));  // התאם את ה-ID למספר
+      // const teacherId = Number(localStorage.getItem('id'));  // התאם את ה-ID למספר
+      const teacherId = Number(localStorage.getItem('userId'));  // התאם את ה-ID למספר
+
       console.log(this.courseForm.value.title,);
       // תיאור הקורס
       console.log(this.courseForm.value.description,);
-      console.log(teacherId);
+      console.log("teacher id: ",teacherId);
       console.log(this.selectedCourse.id);
 
       // קריאה לפונקציה עם כל הפרמטרים

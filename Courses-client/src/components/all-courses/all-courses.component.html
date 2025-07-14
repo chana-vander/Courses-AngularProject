@@ -6,6 +6,10 @@
             <p>{{ errorMessage }}</p>
         </div>
         }
+        @if (role === "teacher") {
+            <button (click)="addCourse()">➕ הוספת קורס</button>
+    
+            }
         @if (courses.length > 0) {
         <h3>רשימת הקורסים</h3>
         <ul>
@@ -33,9 +37,6 @@
         @else if (courses.length === 0 && !errorMessage) {
         <p>לא נמצאו קורסים.</p>
         }
-        @if (role === "teacher") {
-        <button (click)="addCourse()">➕ הוספת קורס</button>
-
-        }
+        
     </div>
 </div>
