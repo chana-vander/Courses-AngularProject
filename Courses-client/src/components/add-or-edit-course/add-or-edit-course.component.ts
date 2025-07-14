@@ -71,9 +71,9 @@ export class AddOrEditCourseComponent {
       const newCourse = {
         title: this.courseForm.value.title,
         description: this.courseForm.value.description,
-        teacherId: Number(localStorage.getItem('id'))  // התאם את ה-ID למספר
+        teacherId: Number(localStorage.getItem('userId'))  // התאם את ה-ID למספר
       };
-      console.log("tech", localStorage.getItem('id'));
+      console.log("tech", localStorage.getItem('userId'));
 
       this.courseService.createCourse(newCourse).subscribe({
         next: (response) => {
